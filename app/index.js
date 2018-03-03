@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import Rx from 'rxjs'
+// import anime from 'animejs'
 
 
 /**
@@ -16,21 +17,21 @@ import 'styles/index.scss';
 
 
 (() => {
-  const $btn = $('.my-btn')
-  const $input = $('.my-input')
+  // const $btn = $('.some-btn')
+  // const $input = $('.my-input')
   const $par = $('.my-par')
 
   $par.css({border: '2px solid black', backgroundColor: '#999999'})
 
-  const btnS = Rx.Observable.fromEvent($btn, 'click')
-  .subscribe((ev) => $par.animate({
-    color: '#009922',
-    opacity: .3,
-    fontWeight: 800,
-    height: '300px',
-    backgroundColor: '#993456'
-  }, 2000, () => {
-    console.log('completed')
-  }))
+  const btn2 = $('.some-btn2')
+  const observable = Rx.Observable.fromEvent(btn2, 'click')
+    .debounceTime(500)
+    // .map(event => event.clientX)
+    .map(() => state => Object.assign({}, state, {count: state.count + 1}))
+
+  const state = observable.scan((state, changeFn) => changeFn(state), {count: 0})
+  // .scan((count, clientX) => count + clientX, 0)
+
+  // observable.subscribe(val => $('.my-input').val(val))
 
 })()
